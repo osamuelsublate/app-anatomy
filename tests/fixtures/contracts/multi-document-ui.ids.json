@@ -1,0 +1,5 @@
+{
+  "documentSelector": "documentSelect",
+  "documentTitleInput": "documentTitle",
+  "newDocumentButton": "btnNewDocument"
+}

@@ -1,0 +1,47 @@
+{
+  "format": "anatomia",
+  "version": 1,
+  "meta": {
+    "title": "Aula 4 — Servidores",
+    "catalogVersion": "3"
+  },
+  "nodes": [
+    { "id": "aula4-nome", "def": "texto", "x": 48, "y": 24, "w": 312, "h": 64, "label": "Aula 4 — Servidores", "color": "#D9F2E3" },
+    { "id": "aula4-desc", "def": "texto", "x": 48, "y": 96, "w": 912, "h": 88, "label": "No monólito tudo roda num servidor. Na distribuída, frontend e API ficam em servidores diferentes." },
+
+    { "id": "aula4-servidor", "def": "servidor", "x": 192, "y": 456, "w": 678, "h": 240, "label": "Servidor" },
+    { "id": "aula4-d-serv-fe", "def": "servidor", "x": 288, "y": 816, "w": 246, "h": 240, "label": "Servidor frontend" },
+    { "id": "aula4-d-serv-api", "def": "servidor", "x": 648, "y": 1032, "w": 462, "h": 240, "label": "Servidor API" },
+
+    { "id": "aula4-titulo-mono", "def": "texto", "x": 48, "y": 216, "w": 216, "h": 64, "label": "Monolito", "color": "#EAE8FB" },
+    { "id": "aula4-user", "def": "usuario", "x": 48, "y": 312, "label": "Usuário" },
+    { "id": "aula4-nav", "def": "navegador", "x": 240, "y": 312, "label": "Navegador" },
+    { "id": "aula4-frontend", "def": "frontend", "x": 240, "y": 528, "label": "Frontend" },
+    { "id": "aula4-api", "def": "api", "x": 456, "y": 528, "label": "API" },
+    { "id": "aula4-banco", "def": "sql", "x": 672, "y": 528, "label": "Banco de dados" },
+
+    { "id": "aula4-titulo-dist", "def": "texto", "x": 48, "y": 744, "w": 240, "h": 64, "label": "Distribuída", "color": "#E3F0FF" },
+    { "id": "aula4-d-nav", "def": "navegador", "x": 48, "y": 888, "label": "Navegador" },
+    { "id": "aula4-d-desk", "def": "computador", "x": 48, "y": 1104, "label": "Desktop" },
+    { "id": "aula4-d-cel", "def": "celular", "x": 48, "y": 1248, "label": "Celular" },
+    { "id": "aula4-d-fe-web", "def": "frontend", "x": 336, "y": 888, "label": "Frontend web" },
+    { "id": "aula4-d-fe-desk", "def": "frontend", "x": 336, "y": 1104, "label": "Frontend desktop" },
+    { "id": "aula4-d-fe-mob", "def": "frontend", "x": 336, "y": 1248, "label": "Frontend mobile" },
+    { "id": "aula4-d-api", "def": "api", "x": 696, "y": 1104, "label": "API" },
+    { "id": "aula4-d-banco", "def": "sql", "x": 912, "y": 1104, "label": "Banco de dados" }
+  ],
+  "edges": [
+    { "id": "aula4-e-abre", "from": "aula4-user", "to": "aula4-nav", "label": "abre" },
+    { "id": "aula4-e-carrega", "from": "aula4-nav", "to": "aula4-frontend", "label": "carrega" },
+    { "id": "aula4-e-pedido", "from": "aula4-frontend", "to": "aula4-api", "label": "pedidos" },
+    { "id": "aula4-e-dados", "from": "aula4-api", "to": "aula4-banco", "label": "l? e grava" },
+
+    { "id": "aula4-de-web", "from": "aula4-d-nav", "to": "aula4-d-fe-web", "label": "abre" },
+    { "id": "aula4-de-desk", "from": "aula4-d-desk", "to": "aula4-d-fe-desk", "label": "abre" },
+    { "id": "aula4-de-cel", "from": "aula4-d-cel", "to": "aula4-d-fe-mob", "label": "abre" },
+    { "id": "aula4-de-web-api", "from": "aula4-d-fe-web", "to": "aula4-d-api", "label": "pedidos" },
+    { "id": "aula4-de-desk-api", "from": "aula4-d-fe-desk", "to": "aula4-d-api", "label": "pedidos" },
+    { "id": "aula4-de-mob-api", "from": "aula4-d-fe-mob", "to": "aula4-d-api", "label": "pedidos" },
+    { "id": "aula4-de-dados", "from": "aula4-d-api", "to": "aula4-d-banco", "label": "l? e grava" }
+  ]
+}

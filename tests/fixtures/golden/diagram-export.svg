@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="807" height="340" viewBox="-88.5 -8 807 340"><rect x="-88.5" y="-8" width="807" height="340" fill="#FFFFFF"/><defs>
+    <clipPath id="lgn-clip"><path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z"/></clipPath>
+    <linearGradient id="lgn-sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45"/>
+      <stop offset=".3" stop-color="#FFFFFF" stop-opacity="0.07"/>
+      <stop offset=".82" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.16"/>
+    </linearGradient>
+    <radialGradient id="lgn-spec" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.85"/>
+      <stop offset=".62" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lgn-depth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset=".78" stop-color="#10101C" stop-opacity="0"/>
+      <stop offset="1" stop-color="#10101C" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="lgn-caustic" x1="0" y1="0" x2="0" y2="1">
+      <stop offset=".8" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="lgn-rim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset=".5" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.6"/>
+    </linearGradient>
+    <filter id="lgn-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.6"/>
+    </filter>
+    <filter id="lgn-shadow" x="-40%" y="-60%" width="180%" height="260%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#10102C" flood-opacity="0.26"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#10102C" flood-opacity="0.22"/>
+    </filter>
+    <filter id="lgn-glyph" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#10101C" flood-opacity=".35"/>
+    </filter>
+  </defs><g data-edge-id="golden-edge-request" class="dedge">
+    <path d="M 115.1 154.2 L 244.4 202.1" fill="none" stroke="transparent" stroke-width="16"/>
+    <path d="M 115.1 154.2 L 239.7 200.4" fill="none" stroke="#4B4A46" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 244.4 202.1 L 235.4 202.9 L 238.1 195.7 Z" fill="#4B4A46"/>
+    <text x="179.8" y="170.1" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#6B6963" stroke="#FBFAF8" stroke-width="4" paint-order="stroke" stroke-linejoin="round">envia &lt;pedido&gt;</text>
+  </g><g data-edge-id="golden-edge-compat" class="dedge">
+    <path d="M 405.3 190.3 L 514.7 133.7" fill="none" stroke="transparent" stroke-width="16"/>
+    <path d="M 405.3 190.3 L 510.2 136.0" fill="none" stroke="#4B4A46" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 514.7 133.7 L 509.2 140.8 L 505.7 134.0 Z" fill="#4B4A46"/>
+    <text x="460.0" y="154.0" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#6B6963" stroke="#FBFAF8" stroke-width="4" paint-order="stroke" stroke-linejoin="round">compatível &amp; auditável</text>
+  </g><g data-node-id="golden-user" class="dnode" transform="translate(-40.5 72.25)" tabindex="0" role="group" aria-label="Usuário: Usuário &amp; turma">
+    <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="#F6F4EE" fill-opacity="0.36" filter="url(#lgn-shadow)"/>
+    <g clip-path="url(#lgn-clip)">
+      <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="url(#lgn-depth)"/>
+      <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="url(#lgn-sheen)"/>
+      <ellipse cx="48" cy="9" rx="45" ry="10" fill="url(#lgn-spec)"/>
+      <path d="M 26 2 L 124 2 C 137.248 2 148 12.752 148 26 L 148 78 C 148 91.248 137.248 102 124 102 L 26 102 C 12.752 102 2 91.248 2 78 L 2 26 C 2 12.752 12.752 2 26 2 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="3" filter="url(#lgn-soft)"/>
+      <path d="M 26 2 L 124 2 C 137.248 2 148 12.752 148 26 L 148 78 C 148 91.248 137.248 102 124 102 L 26 102 C 12.752 102 2 91.248 2 78 L 2 26 C 2 12.752 12.752 2 26 2 Z" fill="none" stroke="url(#lgn-caustic)" stroke-width="2"/>
+    </g>
+    <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="none" stroke="url(#lgn-rim)" stroke-width="1.6"/>
+    <g filter="url(#lgn-glyph)"><g transform="translate(57 12) scale(1.5)" fill="none" stroke="#A94E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></g></g>
+    <g filter="url(#lgn-glyph)"><text x="75" y="78" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#1F1E1B">Usuário &amp; turma</text></g>
+  </g><g data-node-id="golden-api" class="dnode" transform="translate(250 180)" tabindex="0" role="group" aria-label="API: API &quot;principal&quot;">
+    <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="#F6F4EE" fill-opacity="0.36" filter="url(#lgn-shadow)"/>
+    <g clip-path="url(#lgn-clip)">
+      <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="url(#lgn-depth)"/>
+      <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="url(#lgn-sheen)"/>
+      <ellipse cx="48" cy="9" rx="45" ry="10" fill="url(#lgn-spec)"/>
+      <path d="M 26 2 L 124 2 C 137.248 2 148 12.752 148 26 L 148 78 C 148 91.248 137.248 102 124 102 L 26 102 C 12.752 102 2 91.248 2 78 L 2 26 C 2 12.752 12.752 2 26 2 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="3" filter="url(#lgn-soft)"/>
+      <path d="M 26 2 L 124 2 C 137.248 2 148 12.752 148 26 L 148 78 C 148 91.248 137.248 102 124 102 L 26 102 C 12.752 102 2 91.248 2 78 L 2 26 C 2 12.752 12.752 2 26 2 Z" fill="none" stroke="url(#lgn-caustic)" stroke-width="2"/>
+    </g>
+    <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="none" stroke="url(#lgn-rim)" stroke-width="1.6"/>
+    <g filter="url(#lgn-glyph)"><g transform="translate(57 12) scale(1.5)" fill="none" stroke="#5145B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7.5 10h7.6"/><path d="m13.3 8.2 2.2 1.8-2.2 1.8"/><path d="M16.5 14H8.9"/><path d="M10.7 12.2 8.5 14l2.2 1.8"/></g></g>
+    <g filter="url(#lgn-glyph)"><text x="75" y="78" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#1F1E1B">API &quot;principal&quot;</text></g>
+  </g><g data-node-id="golden-legacy" class="dnode" transform="translate(520 40)" tabindex="0" role="group" aria-label="Bloco desconhecido: Sistema &lt;legado&gt;">
+    <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="#F6F4EE" fill-opacity="0.36" filter="url(#lgn-shadow)"/>
+    <g clip-path="url(#lgn-clip)">
+      <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="url(#lgn-depth)"/>
+      <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="url(#lgn-sheen)"/>
+      <ellipse cx="48" cy="9" rx="45" ry="10" fill="url(#lgn-spec)"/>
+      <path d="M 26 2 L 124 2 C 137.248 2 148 12.752 148 26 L 148 78 C 148 91.248 137.248 102 124 102 L 26 102 C 12.752 102 2 91.248 2 78 L 2 26 C 2 12.752 12.752 2 26 2 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="3" filter="url(#lgn-soft)"/>
+      <path d="M 26 2 L 124 2 C 137.248 2 148 12.752 148 26 L 148 78 C 148 91.248 137.248 102 124 102 L 26 102 C 12.752 102 2 91.248 2 78 L 2 26 C 2 12.752 12.752 2 26 2 Z" fill="none" stroke="url(#lgn-caustic)" stroke-width="2"/>
+    </g>
+    <path d="M 26 0 L 124 0 C 138.352 0 150 11.648 150 26 L 150 78 C 150 92.352 138.352 104 124 104 L 26 104 C 11.648 104 0 92.352 0 78 L 0 26 C 0 11.648 11.648 0 26 0 Z" fill="none" stroke="url(#lgn-rim)" stroke-width="1.6"/>
+    <g filter="url(#lgn-glyph)"><g transform="translate(57 12) scale(1.5)" fill="none" stroke="#6B6963" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.8.3-.9 1-.9 1.7"/><circle cx="12" cy="17" r="1.1" fill="#6B6963" stroke="none"/></g></g>
+    <g filter="url(#lgn-glyph)"><text x="75" y="78" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#1F1E1B">Sistema &lt;legado&gt;</text></g>
+  </g></svg>

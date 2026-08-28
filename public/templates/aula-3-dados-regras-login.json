@@ -1,0 +1,34 @@
+{
+  "format": "anatomia",
+  "version": 1,
+  "meta": {
+    "title": "Aula 3 — Integrações",
+    "catalogVersion": "3"
+  },
+  "nodes": [
+    { "id": "aula3-nome", "def": "texto", "x": 48, "y": 24, "w": 312, "h": 64, "label": "Aula 3 — Integrações", "color": "#D9F2E3" },
+    { "id": "aula3-desc", "def": "texto", "x": 48, "y": 96, "w": 912, "h": 88, "label": "A API também chama terceiros: IA, pagamentos e o que o produto precisar." },
+
+    { "id": "aula3-nav", "def": "navegador", "x": 48, "y": 216, "label": "Navegador" },
+    { "id": "aula3-desk", "def": "computador", "x": 48, "y": 360, "label": "Desktop" },
+    { "id": "aula3-cel", "def": "celular", "x": 48, "y": 504, "label": "Celular" },
+    { "id": "aula3-fe-web", "def": "frontend", "x": 288, "y": 216, "label": "Frontend web" },
+    { "id": "aula3-fe-desk", "def": "frontend", "x": 288, "y": 360, "label": "Frontend desktop" },
+    { "id": "aula3-fe-mob", "def": "frontend", "x": 288, "y": 504, "label": "Frontend mobile" },
+    { "id": "aula3-api", "def": "api", "x": 552, "y": 360, "label": "API" },
+    { "id": "aula3-ia", "def": "ia", "x": 816, "y": 216, "label": "IA / LLM" },
+    { "id": "aula3-banco", "def": "sql", "x": 816, "y": 360, "label": "Banco de dados" },
+    { "id": "aula3-pay", "def": "pagamentos", "x": 816, "y": 504, "label": "Pagamentos" }
+  ],
+  "edges": [
+    { "id": "aula3-e-web", "from": "aula3-nav", "to": "aula3-fe-web", "label": "abre" },
+    { "id": "aula3-e-desk", "from": "aula3-desk", "to": "aula3-fe-desk", "label": "abre" },
+    { "id": "aula3-e-cel", "from": "aula3-cel", "to": "aula3-fe-mob", "label": "abre" },
+    { "id": "aula3-e-web-api", "from": "aula3-fe-web", "to": "aula3-api", "label": "pedidos" },
+    { "id": "aula3-e-desk-api", "from": "aula3-fe-desk", "to": "aula3-api", "label": "pedidos" },
+    { "id": "aula3-e-mob-api", "from": "aula3-fe-mob", "to": "aula3-api", "label": "pedidos" },
+    { "id": "aula3-e-ia", "from": "aula3-api", "to": "aula3-ia", "label": "consulta" },
+    { "id": "aula3-e-dados", "from": "aula3-api", "to": "aula3-banco", "label": "lê e grava" },
+    { "id": "aula3-e-pay", "from": "aula3-api", "to": "aula3-pay", "label": "cobra" }
+  ]
+}

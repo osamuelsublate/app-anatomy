@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "id": "golden-user",
+      "def": "usuario",
+      "x": -40.5,
+      "y": 72.25,
+      "label": "Usuário & turma"
+    },
+    {
+      "id": "golden-api",
+      "def": "api",
+      "x": 250,
+      "y": 180,
+      "label": "API \"principal\""
+    },
+    {
+      "id": "golden-legacy",
+      "def": "legado-customizado",
+      "x": 520,
+      "y": 40,
+      "label": "Sistema <legado>"
+    }
+  ],
+  "edges": [
+    {
+      "id": "golden-edge-request",
+      "from": "golden-user",
+      "to": "golden-api",
+      "label": "envia <pedido>"
+    },
+    {
+      "id": "golden-edge-compat",
+      "from": "golden-api",
+      "to": "golden-legacy",
+      "label": "compatível & auditável"
+    }
+  ]
+}

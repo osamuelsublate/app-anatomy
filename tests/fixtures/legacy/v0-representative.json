@@ -1,0 +1,52 @@
+{
+  "nodes": [
+    {
+      "id": "legacy-user",
+      "def": "usuario",
+      "x": 40,
+      "y": 190,
+      "label": "Usuário"
+    },
+    {
+      "id": "legacy-browser",
+      "def": "navegador",
+      "x": 280,
+      "y": 60,
+      "label": "Navegador"
+    },
+    {
+      "id": "legacy-api",
+      "def": "api",
+      "x": 560,
+      "y": 190,
+      "label": "API principal"
+    },
+    {
+      "id": "legacy-database",
+      "def": "sql",
+      "x": 820,
+      "y": 320,
+      "label": "Banco de dados"
+    }
+  ],
+  "edges": [
+    {
+      "id": "legacy-edge-browser",
+      "from": "legacy-user",
+      "to": "legacy-browser",
+      "label": "usa"
+    },
+    {
+      "id": "legacy-edge-api",
+      "from": "legacy-browser",
+      "to": "legacy-api",
+      "label": "pedidos e dados"
+    },
+    {
+      "id": "legacy-edge-database",
+      "from": "legacy-api",
+      "to": "legacy-database",
+      "label": "lê e grava"
+    }
+  ]
+}

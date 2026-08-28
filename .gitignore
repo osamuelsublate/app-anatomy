@@ -1,0 +1,25 @@
+node_modules/
+
+# Test and coverage outputs
+coverage/
+.nyc_output/
+test-results/
+.test-build/
+.test-dist/
+.freshness-dist/
+
+# Diagnostics and temporary files
+*.log
+*.tsbuildinfo
+.cache/
+tmp/
+temp/
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

@@ -1,0 +1,25 @@
+{
+  "format": "anatomia",
+  "version": 1,
+  "meta": {
+    "title": "Login seguro",
+    "catalogVersion": "3"
+  },
+  "nodes": [
+    { "id": "login-user", "def": "usuario", "x": 20, "y": 180, "label": "Usuário" },
+    { "id": "login-browser", "def": "navegador", "x": 260, "y": 180, "label": "Navegador" },
+    { "id": "login-https", "def": "https", "x": 500, "y": 40, "label": "HTTPS" },
+    { "id": "login-api", "def": "api", "x": 500, "y": 320, "label": "API" },
+    { "id": "login-auth", "def": "auth", "x": 760, "y": 180, "label": "Autenticação" },
+    { "id": "login-permissions", "def": "permissoes", "x": 1020, "y": 40, "label": "Autorização" },
+    { "id": "login-secrets", "def": "segredos", "x": 1020, "y": 320, "label": "Cofre de segredos" }
+  ],
+  "edges": [
+    { "id": "login-edge-type", "from": "login-user", "to": "login-browser", "label": "informa login" },
+    { "id": "login-edge-encrypt", "from": "login-browser", "to": "login-https", "label": "protege a conversa" },
+    { "id": "login-edge-request", "from": "login-https", "to": "login-api", "label": "entrega o pedido" },
+    { "id": "login-edge-check", "from": "login-api", "to": "login-auth", "label": "confere identidade" },
+    { "id": "login-edge-authorize", "from": "login-auth", "to": "login-permissions", "label": "libera ações" },
+    { "id": "login-edge-secret", "from": "login-auth", "to": "login-secrets", "label": "usa chaves protegidas" }
+  ]
+}

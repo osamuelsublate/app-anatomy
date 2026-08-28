@@ -1,0 +1,25 @@
+{
+  "format": "anatomia",
+  "version": 1,
+  "meta": {
+    "title": "Anatomia completa de um app",
+    "catalogVersion": "3"
+  },
+  "nodes": [
+    { "id": "template-user", "def": "usuario", "x": 40, "y": 190, "label": "Usuário" },
+    { "id": "template-browser", "def": "navegador", "x": 280, "y": 60, "label": "Navegador" },
+    { "id": "template-frontend", "def": "frontend", "x": 280, "y": 320, "label": "Frontend" },
+    { "id": "template-api", "def": "api", "x": 560, "y": 190, "label": "API" },
+    { "id": "template-auth", "def": "auth", "x": 820, "y": 60, "label": "Autenticação" },
+    { "id": "template-database", "def": "sql", "x": 820, "y": 320, "label": "Banco de dados" },
+    { "id": "template-email", "def": "email", "x": 820, "y": 190, "label": "Email (SMTP)" }
+  ],
+  "edges": [
+    { "id": "template-edge-use", "from": "template-user", "to": "template-browser", "label": "usa" },
+    { "id": "template-edge-load", "from": "template-browser", "to": "template-frontend", "label": "baixa e executa" },
+    { "id": "template-edge-request", "from": "template-frontend", "to": "template-api", "label": "pedidos e dados" },
+    { "id": "template-edge-auth", "from": "template-api", "to": "template-auth", "label": "quem é você?" },
+    { "id": "template-edge-data", "from": "template-api", "to": "template-database", "label": "lê e grava" },
+    { "id": "template-edge-email", "from": "template-api", "to": "template-email", "label": "envia emails" }
+  ]
+}

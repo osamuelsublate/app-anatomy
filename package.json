@@ -1,0 +1,27 @@
+{
+  "name": "app-anatomy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "test": "npm run test:compile && node --test .test-dist/tests/*.test.js",
+    "clean:test": "node -e \"require('node:fs').rmSync('.test-dist', { recursive: true, force: true })\"",
+    "clean:build": "node -e \"require('node:fs').rmSync('public/js', { recursive: true, force: true })\"",
+    "clean:freshness": "node -e \"require('node:fs').rmSync('.freshness-dist', { recursive: true, force: true })\"",
+    "test:compile": "npm run clean:test && tsgo -p tsconfig.test.json",
+    "build": "npm run clean:build && tsgo -p tsconfig.json",
+    "check:freshness": "npm run clean:freshness && tsgo -p tsconfig.json --outDir .freshness-dist && node --input-type=module -e \"import { readdirSync, readFileSync, rmSync } from 'node:fs'; const generated = '.freshness-dist'; const published = 'public/js'; const jsFiles = (directory) => readdirSync(directory, { withFileTypes: true }).filter((entry) => entry.isFile() && entry.name.endsWith('.js')).map((entry) => entry.name).sort(); try { const expected = jsFiles(generated); const actual = jsFiles(published); const namesMatch = expected.length === actual.length && expected.every((name, index) => name === actual[index]); const stale = namesMatch ? expected.filter((name) => !readFileSync(generated + '/' + name).equals(readFileSync(published + '/' + name))) : []; if (!namesMatch || stale.length > 0) { console.error('public/js is stale. Run npm run build.'); if (!namesMatch) console.error('Expected:', expected.join(', '), '\\nActual:', actual.join(', ')); if (stale.length > 0) console.error('Changed:', stale.join(', ')); process.exitCode = 1; } else { console.log('public/js is fresh.'); } } finally { rmSync(generated, { recursive: true, force: true }); }\"",
+    "check": "tsgo -p tsconfig.json --noEmit",
+    "serve": "python3 -m http.server 8137 --directory public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@typescript/native-preview": "7.0.0-dev.20260707.2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "format": "anatomia",
+  "version": 1,
+  "meta": {
+    "title": "O caminho de um clique",
+    "catalogVersion": "3"
+  },
+  "nodes": [
+    { "id": "click-user", "def": "usuario", "x": 20, "y": 180, "label": "Você" },
+    { "id": "click-browser", "def": "navegador", "x": 240, "y": 180, "label": "Navegador" },
+    { "id": "click-dns", "def": "dns", "x": 460, "y": 40, "label": "DNS" },
+    { "id": "click-internet", "def": "internet", "x": 460, "y": 320, "label": "Internet" },
+    { "id": "click-web-server", "def": "servidorweb", "x": 700, "y": 180, "label": "Servidor web" },
+    { "id": "click-api", "def": "api", "x": 940, "y": 180, "label": "API" },
+    { "id": "click-database", "def": "sql", "x": 1180, "y": 180, "label": "Banco de dados" }
+  ],
+  "edges": [
+    { "id": "click-edge-open", "from": "click-user", "to": "click-browser", "label": "clica" },
+    { "id": "click-edge-name", "from": "click-browser", "to": "click-dns", "label": "descobre o endereço" },
+    { "id": "click-edge-connect", "from": "click-browser", "to": "click-internet", "label": "abre a conexão" },
+    { "id": "click-edge-route", "from": "click-internet", "to": "click-web-server", "label": "leva o pedido" },
+    { "id": "click-edge-forward", "from": "click-web-server", "to": "click-api", "label": "encaminha" },
+    { "id": "click-edge-query", "from": "click-api", "to": "click-database", "label": "consulta" }
+  ]
+}

@@ -1,0 +1,572 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-canvas: rgb(251 250 248);
+  --surface: rgb(255 255 255);
+  --surface-2: rgb(244 243 239);
+  --ink: rgb(31 30 27);
+  --ink-muted: rgb(107 105 99);
+  --border: rgb(217 215 208);
+  --accent: rgb(105 101 219);
+  --accent-soft: rgb(232 231 251);
+  --danger: rgb(179 53 44);
+  --danger-soft: rgb(251 228 226);
+  --dot: rgb(221 219 210);
+
+  /* ---- Liquid Glass: tokens (tema claro) ---- */
+  --glass-blur: 22px;
+  --glass-sat: 190%;
+  --glass-bright: 1.08;
+  --glass-tint-a: 14%;
+  --glass-rim-hi: rgb(255 255 255 / .7);
+  --glass-inset-hi: rgb(255 255 255 / .65);
+  --glass-glow: rgb(255 255 255 / .6);
+  --glass-sheen: rgb(255 255 255 / .42);
+  --glass-shadow: 0 2px 10px rgb(28 34 88 / .12), 0 14px 44px rgb(28 34 88 / .22);
+  --glass-shadow-deep: 0 8px 22px rgb(28 34 88 / .18), 0 26px 80px rgb(28 34 88 / .32);
+  --dot-glass: rgb(36 44 96 / .16);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --glass-sat: 160%;
+  --glass-bright: 1.04;
+  --glass-tint-a: 34%;
+  --glass-rim-hi: rgb(255 255 255 / .22);
+  --glass-inset-hi: rgb(255 255 255 / .18);
+  --glass-glow: rgb(255 255 255 / .2);
+  --glass-sheen: rgb(255 255 255 / .13);
+  --glass-shadow: 0 2px 10px rgb(0 0 0 / .35), 0 14px 44px rgb(0 0 0 / .5);
+  --glass-shadow-deep: 0 8px 22px rgb(0 0 0 / .42), 0 26px 80px rgb(0 0 0 / .62);
+  --dot-glass: rgb(255 255 255 / .11);
+}
+html, body {
+  height: 100%;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--bg-canvas);
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+/* Wallpaper discreto: manchas de cor muito fracas, quase imperceptíveis —
+   só o suficiente para o vidro ter o que refratar. */
+body {
+  background:
+    radial-gradient(1200px 860px at 12% -12%, rgb(96 158 255 / .13), transparent 64%),
+    radial-gradient(1000px 760px at 103% 2%, rgb(178 128 255 / .11), transparent 62%),
+    radial-gradient(920px 720px at 90% 108%, rgb(255 150 110 / .1), transparent 64%),
+    radial-gradient(1000px 780px at -8% 90%, rgb(255 120 178 / .09), transparent 62%),
+    linear-gradient(180deg, rgb(249 250 253), rgb(250 248 252));
+}
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(1200px 860px at 12% -12%, rgb(78 92 255 / .12), transparent 64%),
+    radial-gradient(1000px 760px at 103% 2%, rgb(168 66 255 / .09), transparent 62%),
+    radial-gradient(920px 720px at 90% 108%, rgb(255 92 148 / .07), transparent 64%),
+    linear-gradient(180deg, rgb(24 25 33), rgb(29 27 38));
+}
+html, body, #topbar, #palette, #canvasWrap, button, input, select {
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+}
+button, input, select { color: inherit; font: inherit; }
+button, select, input {
+  border: 1px solid color-mix(in srgb, var(--glass-rim-hi) 70%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / .3);
+}
+html[data-theme="dark"] button, html[data-theme="dark"] select, html[data-theme="dark"] input {
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / .08);
+}
+button { cursor: pointer; }
+button:hover:not(:disabled) { background: color-mix(in srgb, var(--surface) 78%, transparent); }
+button:disabled { cursor: not-allowed; opacity: .5; }
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+body[aria-busy="true"] #topbar,
+body[aria-busy="true"] #palette { pointer-events: none; opacity: .65; }
+
+/* ---- Liquid Glass: o material ----
+   Estrutura em 3 camadas (referência: archisvaze/liquid-glass, kube.io):
+   elemento = moldura + sombra externa; ::after (z:-1) = frost + refração do
+   backdrop; ::before (z:1) = tint baixo + BRILHO INTERNO difuso (a assinatura
+   do vidro) + sheen. Conteúdo em z:2. Vidro só no chrome — nunca no conteúdo. */
+.glass {
+  --r: 20px;
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--glass-rim-hi);
+  border-radius: var(--r);
+  background: transparent;
+  box-shadow: var(--glass-shadow);
+}
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+}
+/* Refração de lente só em elementos compactos — no topbar (largura inteira)
+   o mapa esticado deformaria demais; lá o frost com blur já basta. */
+html.refract .glass:not(#topbar)::after {
+  -webkit-backdrop-filter: url(#lg-dist) blur(calc(var(--glass-blur) * .55)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+  backdrop-filter: url(#lg-dist) blur(calc(var(--glass-blur) * .55)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+}
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 38%, var(--glass-sheen) 46%, transparent 56%),
+    linear-gradient(160deg, var(--glass-sheen), transparent 46%),
+    color-mix(in srgb, var(--surface) var(--glass-tint-a), transparent);
+  box-shadow:
+    inset 0 0 26px -6px var(--glass-glow),
+    inset 0 1.5px 1px var(--glass-inset-hi),
+    inset 0 -1px 1px rgb(255 255 255 / .18);
+}
+.glass > * { position: relative; z-index: 2; }
+.glass-thin { --glass-blur: 14px; --glass-tint-a: 10%; }
+.glass-thick {
+  --glass-blur: 26px;
+  --glass-tint-a: 62%;
+  box-shadow: var(--glass-shadow-deep);
+}
+html[data-theme="dark"] .glass-thin { --glass-tint-a: 30%; }
+html[data-theme="dark"] .glass-thick { --glass-tint-a: 72%; }
+
+/* Degradação projetada: sem suporte, transparência reduzida ou alto contraste
+   viram superfície sólida — a separação de plano fica por conta das sombras. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass, .glass-thin, .glass-thick, #palette { background: var(--surface); border-color: var(--border); }
+  .glass::after, .glass::before { display: none; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .glass, .glass-thin, .glass-thick, #palette { background: var(--surface); border-color: var(--border); }
+  .glass::after, .glass::before { display: none; }
+  body { background: var(--bg-canvas); }
+}
+
+#topbar {
+  position: relative;
+  z-index: 20;
+  --r: 0px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.brand, .documents, .tools { display: flex; align-items: center; gap: 6px; }
+.brand { white-space: nowrap; font-size: 14px; }
+#saveStatus { color: var(--ink-muted); font-size: 12px; margin-left: 5px; }
+#saveStatus.error { color: var(--danger); }
+.documents { flex: 1; justify-content: center; min-width: 0; }
+.documents select { width: min(180px, 20vw); height: 27px; padding: 0 22px 0 8px; }
+.documents input { width: min(260px, 28vw); height: 27px; padding: 0 9px; font-weight: 600; }
+.documents select, .documents input { background-color: color-mix(in srgb, var(--surface) 55%, transparent); }
+/* select sem a pintura nativa do UA (quebrava o vidro, sobretudo no escuro) */
+.documents select, #fileMenu select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a8880' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  background-size: 12px;
+}
+/* ícones em <img> não herdam currentColor — no escuro, inverte o traço */
+html[data-theme="dark"] .icon-button img,
+html[data-theme="dark"] #zoomControls img,
+html[data-theme="dark"] .brand img { filter: invert(.92) hue-rotate(180deg); }
+.tools { margin-left: auto; }
+.icon-button {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-color: transparent;
+  border-radius: 999px;
+  background: transparent;
+}
+#topbar .icon-button:hover:not(:disabled),
+#zoomControls button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.icon-button img, #zoomControls img { width: 18px; height: 18px; }
+.file-menu { position: relative; }
+#fileMenu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 250px;
+  padding: 8px;
+}
+#fileMenu button, #fileMenu label { width: 100%; display: block; padding: 8px 10px; text-align: left; border-color: transparent; background: transparent; border-radius: calc(var(--r) - 8px); }
+#fileMenu button:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+#fileMenu label { color: var(--ink-muted); font-size: 12px; }
+#fileMenu select { display: block; width: 100%; margin-top: 4px; padding: 6px; }
+.danger { color: var(--danger); }
+.danger:hover { background: var(--danger-soft) !important; }
+/* Menu de contexto do canvas: mesmo material de vidro do menu Arquivo,
+   posicionado no cursor e limitado à viewport. */
+#contextMenu {
+  position: absolute;
+  z-index: 40;
+  width: 224px;
+  max-height: min(560px, calc(100% - 16px));
+  overflow-y: auto;
+  padding: 6px;
+  --r: 14px;
+}
+#contextMenu button[role="menuitem"] {
+  width: 100%;
+  display: block;
+  padding: 7px 10px;
+  text-align: left;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  border-radius: calc(var(--r) - 6px);
+  font-size: 13px;
+}
+#contextMenu button[role="menuitem"]:hover:not(:disabled),
+#contextMenu button[role="menuitem"]:focus-visible {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+#contextMenu button[role="menuitem"]:disabled { color: var(--ink-muted); opacity: .55; cursor: default; }
+#contextMenu .menu-sep {
+  height: 1px;
+  margin: 5px 8px;
+  background: color-mix(in srgb, var(--glass-rim-hi) 60%, var(--border));
+}
+#contextMenu .menu-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+}
+#layout { display: flex; height: calc(100% - 40px); }
+/* Menu lateral ocultável: dá o espaço todo ao canvas; preferência lembrada. */
+body.palette-hidden #palette { display: none; }
+#palette {
+  width: 268px;
+  flex: none;
+  padding: 10px;
+  overflow-y: auto;
+  /* backdrop-filter direto no elemento (não em ::after) para o frost
+     acompanhar o scroll do conteúdo. */
+  background: color-mix(in srgb, var(--surface) 38%, transparent);
+  border-right: 1px solid var(--glass-rim-hi);
+  -webkit-backdrop-filter: blur(24px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+  backdrop-filter: blur(24px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+  box-shadow: inset 0 1px 1px var(--glass-inset-hi);
+}
+html[data-theme="dark"] #palette { background: color-mix(in srgb, var(--surface) 44%, transparent); }
+/* Scroll sem barra visível: o vidro dispensa a scrollbar grosseira. */
+#palette, #fileMenu, #quickResults, #contextMenu, .popover, .overlay-panel { scrollbar-width: none; }
+#palette::-webkit-scrollbar,
+#fileMenu::-webkit-scrollbar,
+#quickResults::-webkit-scrollbar,
+#contextMenu::-webkit-scrollbar,
+.popover::-webkit-scrollbar,
+.overlay-panel::-webkit-scrollbar { display: none; }
+#search { width: 100%; padding: 9px 10px; margin-bottom: 9px; }
+#cats details { margin-bottom: 5px; }
+#cats summary {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+#cats summary:hover { background: var(--surface-2); }
+#cats summary .count { margin-left: auto; color: var(--ink-muted); font-size: 12px; font-weight: 400; }
+.cat-icon { flex: none; color: var(--ink-muted); }
+.blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px 2px 10px; }
+/* Tiles da paleta como ícones do iOS 26: vidro COLORIDO translúcido — a cor
+   da categoria deixa o wallpaper atravessar (backdrop blur), com specular no
+   topo, brilho interno difuso, sombra interna na base (espessura da lente) e
+   sombra externa profunda. No escuro: vidro escuro + glifo pastel. */
+#cats .block-item {
+  min-width: 0;
+  padding: 10px 6px 8px;
+  border: 1px solid rgb(255 255 255 / .7);
+  border-radius: 18px;
+  background:
+    radial-gradient(130% 86% at 30% -18%, rgb(255 255 255 / .65), rgb(255 255 255 / 0) 56%),
+    color-mix(in srgb, #FFFFFF 44%, transparent);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  backdrop-filter: blur(10px) saturate(160%);
+  color: var(--cat-stroke, var(--ink-muted));
+  text-align: center;
+  cursor: grab;
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / .8),
+    inset 0 0 16px -7px rgb(255 255 255 / .7),
+    inset 0 -8px 14px -12px rgb(16 16 28 / .18),
+    0 1px 3px rgb(22 26 64 / .1),
+    0 7px 18px -6px rgb(22 26 64 / .22);
+  transition: transform 140ms cubic-bezier(.2, .9, .3, 1.3), box-shadow 140ms ease, filter 140ms ease;
+}
+html[data-theme="dark"] #cats .block-item {
+  border-color: rgb(255 255 255 / .14);
+  background:
+    radial-gradient(130% 86% at 30% -18%, rgb(255 255 255 / .12), rgb(255 255 255 / 0) 56%),
+    color-mix(in srgb, #EAF0FF 10%, transparent);
+  color: var(--cat-stroke, var(--ink));
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / .18),
+    inset 0 0 16px -7px rgb(255 255 255 / .2),
+    inset 0 -8px 14px -12px rgb(0 0 0 / .5),
+    0 1px 3px rgb(0 0 0 / .3),
+    0 7px 18px -6px rgb(0 0 0 / .38);
+}
+#cats .block-item:hover {
+  transform: translateY(-2px) scale(1.045);
+  filter: brightness(1.03);
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / .8),
+    inset 0 0 16px -7px rgb(255 255 255 / .7),
+    inset 0 -8px 14px -12px rgb(16 16 28 / .18),
+    0 3px 7px rgb(22 26 64 / .12),
+    0 12px 26px -6px rgb(22 26 64 / .26);
+}
+#cats .block-item:active { transform: scale(.96); }
+.block-item .bi {
+  display: block;
+  margin: 0 auto;
+  width: 22px;
+  height: 22px;
+  color: currentColor;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1px rgb(20 18 30 / .25));
+}
+#cats .block-item .bn { color: var(--ink); }
+html[data-theme="dark"] #cats .block-item .bn { color: var(--ink); }
+.block-item .bn { display: block; margin-top: 4px; font-size: 12px; font-weight: 600; line-height: 1.15; }
+#canvasWrap {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  /* transparente: o wallpaper do body aparece atrás do diagrama e dá ao
+     vidro dos blocos e do chrome algo real para refratar */
+  background-color: transparent;
+  background-image: radial-gradient(circle, var(--dot-glass) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+#canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+#canvas .dnode { cursor: move; transition: filter 160ms ease; }
+#canvas .dnode:hover { filter: brightness(1.07) saturate(1.08); }
+#canvas .dedge { cursor: pointer; }
+.node-ports { opacity: 0; pointer-events: none; transition: opacity 120ms ease; }
+.node-ports.selected, .node-ports:focus-within, .node-ports:hover, .node-ports.hover { opacity: 1; pointer-events: auto; }
+/* Durante uma conexão todas as portas ficam visíveis para escolher a face de destino. */
+body.connecting .node-ports { opacity: 1; pointer-events: auto; }
+.port { cursor: crosshair; transition: stroke-width 100ms ease; }
+.port:hover, .port:focus-visible { stroke-width: 3.5; }
+/* Alças de waypoint: arrastar ajusta o trajeto; duplo clique remove. */
+.edge-point { cursor: grab; filter: drop-shadow(0 1px 3px rgb(16 16 44 / .35)); }
+.edge-point:active { cursor: grabbing; }
+.edge-point:hover, .edge-point:focus-visible { stroke-width: 3; }
+.resize-handle { cursor: nwse-resize; }
+.resize-handle.resize-ne, .resize-handle.resize-sw { cursor: nesw-resize; }
+.alignment-guide { stroke-width: 1; stroke-dasharray: 5 4; pointer-events: none; }
+.laser-pointer { fill: var(--danger); stroke: var(--surface); stroke-width: 2; filter: drop-shadow(0 0 5px var(--danger)); pointer-events: none; }
+#hint {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  max-width: calc(100% - 300px);
+  padding: 5px 10px;
+  --r: 10px;
+  color: var(--ink-muted);
+  pointer-events: none;
+  contain: layout paint;
+}
+#labelEditor {
+  display: none;
+  position: absolute;
+  z-index: 30;
+  width: 180px;
+  padding: 6px 8px;
+  text-align: center;
+  font-weight: 600;
+  border: 2px solid var(--accent);
+  box-shadow: 0 3px 12px rgb(0 0 0 / .16);
+}
+#zoomControls {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 10;
+  display: flex;
+  padding: 4px;
+  gap: 2px;
+  --r: 999px;
+  contain: layout paint;
+}
+#zoomControls button {
+  min-width: 34px;
+  height: 32px;
+  padding: 4px;
+  border-color: transparent;
+  border-radius: 999px;
+  background: transparent;
+}
+/* Grade de cores do bloco selecionado: pílula de vidro com swatches
+   predefinidos, opção "sem cor" (vidro puro) e seletor de cor livre. */
+/* Alça flutuante para esconder/mostrar o menu lateral. */
+#btnPalette {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  --r: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+#btnPalette:hover { color: var(--ink); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+#colorPanel[hidden] { display: none; }
+#colorPanel {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  translate: -50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  --r: 999px;
+  contain: layout paint;
+}
+.swatch {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / .7);
+  background: var(--sw, transparent);
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / .45), 0 1px 3px rgb(16 16 28 / .25);
+  cursor: pointer;
+  transition: transform 120ms ease, outline-color 120ms ease;
+}
+.swatch:hover { transform: scale(1.18); background: var(--sw, transparent); }
+.swatch.active { outline: 2px solid var(--accent); outline-offset: 2px; }
+.swatch-clear {
+  background:
+    linear-gradient(135deg, transparent 43%, var(--danger) 46%, var(--danger) 54%, transparent 57%),
+    color-mix(in srgb, var(--surface) 45%, transparent);
+}
+.swatch-clear:hover {
+  background:
+    linear-gradient(135deg, transparent 43%, var(--danger) 46%, var(--danger) 54%, transparent 57%),
+    color-mix(in srgb, var(--surface) 65%, transparent);
+}
+.swatch-custom {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  background: conic-gradient(#ff3b30, #ffcc00, #34c759, #30b0c7, #007aff, #af52de, #ff3b30);
+}
+.swatch-custom:hover { background: conic-gradient(#ff3b30, #ffcc00, #34c759, #30b0c7, #007aff, #af52de, #ff3b30); }
+.swatch-custom input {
+  position: absolute;
+  inset: -4px;
+  opacity: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+.popover {
+  position: absolute;
+  z-index: 35;
+  width: 230px;
+  padding: 8px;
+  --r: 14px;
+}
+.popover input { width: 100%; padding: 7px; margin-bottom: 6px; background: color-mix(in srgb, var(--surface) 60%, transparent); }
+.popover .block-item { width: 100%; margin-top: 4px; text-align: left; cursor: pointer; border-radius: calc(var(--r) - 6px); }
+.popover .bi { display: inline-block; vertical-align: -4px; margin-right: 8px; width: 18px; height: 18px; color: var(--ink-muted); }
+.popover .bn { display: inline; }
+.overlay-panel {
+  position: fixed;
+  z-index: 50;
+  inset: 50% auto auto 50%;
+  translate: -50% -50%;
+  width: min(560px, calc(100% - 32px));
+  padding: 22px;
+  --r: 20px;
+}
+.overlay-panel h2 { margin-bottom: 12px; }
+.overlay-panel p { margin: 10px 0; }
+.overlay-panel button { padding: 7px 12px; }
+kbd { padding: 2px 5px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface-2); }
+body.chrome-collapsed #topbar, body.chrome-collapsed #palette { display: none; }
+body.chrome-collapsed #layout { height: 100%; }
+body.presentation-mode #topbar,
+body.presentation-mode #palette,
+body.presentation-mode #hint,
+body.presentation-mode #zoomControls,
+body.presentation-mode #labelEditor,
+body.presentation-mode #colorPanel,
+body.presentation-mode #btnPalette,
+body.presentation-mode #contextMenu,
+body.presentation-mode #quickPicker { display: none !important; }
+body.presentation-mode #layout { height: 100%; }
+body.presentation-mode #canvasWrap { width: 100%; }
+body.presentation-mode .glass, body.presentation-mode .glass-thick {
+  background: var(--surface);
+  border-color: var(--border);
+}
+body.presentation-mode .glass::after, body.presentation-mode .glass::before { display: none; }
+body.presentation-mode #canvas .dnode { animation: reveal-node 120ms cubic-bezier(.2,.9,.3,1.2); }
+body.presentation-mode #canvas { cursor: none; }
+@keyframes reveal-node {
+  from { opacity: 0; transform-box: fill-box; transform-origin: center; scale: .92; }
+  to { opacity: 1; scale: 1; }
+}
+@media (max-width: 850px) {
+  .documents input { display: none; }
+  #btnPresent span { display: none; }
+  #palette { width: 220px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}

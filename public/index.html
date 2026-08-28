@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anatomia — construtor de diagramas</title>
+  <link rel="icon" href="icons/ui/heart-pulse.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body aria-busy="true">
+  <header id="topbar" class="glass">
+    <div class="brand">
+      <img src="icons/ui/heart-pulse.svg" alt="" width="20" height="20"> <b>Anatomia</b>
+      <span id="saveStatus" role="status" aria-live="polite"></span>
+    </div>
+    <div class="file-menu">
+      <button id="btnFileMenu" class="icon-button" aria-haspopup="menu" aria-expanded="false" title="Arquivo">
+        <img src="icons/ui/menu.svg" alt=""> <span>Arquivo</span>
+      </button>
+      <div id="fileMenu" class="glass glass-thick" role="menu" hidden>
+        <button id="btnNewDocument" role="menuitem">Novo diagrama</button>
+        <label>Modelo
+          <select id="templateSelect" aria-label="Modelo de diagrama">
+            <optgroup label="Aulas">
+              <option value="aula-1-viagem-pagina">Aula 1 — Fluxo básico</option>
+              <option value="aula-2-organizacao">Aula 2 — Monólito e pedaços</option>
+              <option value="aula-3-dados-regras-login">Aula 3 — Integrações</option>
+              <option value="aula-4-mundo-real">Aula 4 — Servidores</option>
+            </optgroup>
+            <optgroup label="Outros modelos">
+              <option value="anatomia-completa">Anatomia completa de um app</option>
+              <option value="caminho-de-um-clique">O caminho de um clique</option>
+              <option value="comecar-do-zero">Começar do zero</option>
+              <option value="login-seguro">Login seguro</option>
+            </optgroup>
+          </select>
+        </label>
+        <button id="btnNewFromTemplate" role="menuitem">Novo a partir do modelo</button>
+        <button id="btnInsertTemplate" role="menuitem">Inserir modelo no atual</button>
+        <button id="btnOpen" role="menuitem">Abrir JSON…</button>
+        <button id="btnSave" role="menuitem">Salvar JSON</button>
+        <button id="btnPng" role="menuitem">Exportar PNG</button>
+        <button id="btnSvg" role="menuitem">Exportar SVG</button>
+        <button id="btnClear" class="danger" role="menuitem">Limpar diagrama</button>
+        <button id="btnDeleteDocument" class="danger" role="menuitem">Excluir diagrama</button>
+      </div>
+    </div>
+    <div class="documents" aria-label="Documentos">
+      <select id="documentSelect" aria-label="Diagrama ativo"></select>
+      <input id="documentTitle" aria-label="Título do diagrama" maxlength="200" autocomplete="off">
+    </div>
+    <div class="tools">
+      <button id="btnTheme" class="icon-button" title="Alternar tema"><img src="icons/ui/sun-moon.svg" alt=""><span class="sr-only">Alternar tema</span></button>
+      <button id="btnUndo" class="icon-button" title="Desfazer (Ctrl+Z)"><img src="icons/ui/undo-2.svg" alt=""><span class="sr-only">Desfazer</span></button>
+      <button id="btnRedo" class="icon-button" title="Refazer (Ctrl+Shift+Z)"><img src="icons/ui/redo-2.svg" alt=""><span class="sr-only">Refazer</span></button>
+      <button id="btnPresent" class="icon-button" title="Apresentar"><img src="icons/ui/presentation.svg" alt=""><span>Apresentar</span></button>
+    </div>
+  </header>
+  <div id="layout">
+    <aside id="palette">
+      <input id="search" type="search" placeholder="Buscar bloco… (ex: banco, email)" autocomplete="off">
+      <div id="cats"></div>
+    </aside>
+    <main id="canvasWrap">
+      <svg id="canvas" tabindex="0" aria-label="Diagrama"></svg>
+      <button id="btnPalette" class="glass glass-thin" title="Esconder menu lateral" aria-label="Esconder menu lateral" aria-expanded="true">‹</button>
+      <div id="contextMenu" class="glass glass-thick" role="menu" hidden></div>
+      <div id="hint" class="glass glass-thin"></div>
+      <input id="labelEditor" autocomplete="off" spellcheck="false">
+      <div id="quickPicker" class="popover glass glass-thick" hidden>
+        <input id="quickSearch" type="search" placeholder="Criar conectado…">
+        <div id="quickResults"></div>
+      </div>
+      <div id="zoomControls" class="glass glass-thin" aria-label="Zoom">
+        <button id="btnZoomOut" title="Afastar">−</button>
+        <button id="btnZoomReset" title="Voltar para 100%">100%</button>
+        <button id="btnZoomIn" title="Aproximar">+</button>
+        <button id="btnFit" title="Enquadrar"><img src="icons/ui/maximize.svg" alt=""><span class="sr-only">Enquadrar</span></button>
+      </div>
+      <div id="colorPanel" class="glass glass-thin" hidden role="toolbar" aria-label="Cor do bloco selecionado">
+        <button class="swatch swatch-clear" data-color="" title="Sem cor (vidro transparente)" aria-label="Sem cor"></button>
+        <button class="swatch" data-color="#FF3B30" style="--sw:#FF3B30" title="Vermelho" aria-label="Vermelho"></button>
+        <button class="swatch" data-color="#FF9500" style="--sw:#FF9500" title="Laranja" aria-label="Laranja"></button>
+        <button class="swatch" data-color="#FFCC00" style="--sw:#FFCC00" title="Amarelo" aria-label="Amarelo"></button>
+        <button class="swatch" data-color="#34C759" style="--sw:#34C759" title="Verde" aria-label="Verde"></button>
+        <button class="swatch" data-color="#00C7BE" style="--sw:#00C7BE" title="Verde-água" aria-label="Verde-água"></button>
+        <button class="swatch" data-color="#007AFF" style="--sw:#007AFF" title="Azul" aria-label="Azul"></button>
+        <button class="swatch" data-color="#5856D6" style="--sw:#5856D6" title="Índigo" aria-label="Índigo"></button>
+        <button class="swatch" data-color="#AF52DE" style="--sw:#AF52DE" title="Roxo" aria-label="Roxo"></button>
+        <button class="swatch" data-color="#FF2D55" style="--sw:#FF2D55" title="Rosa" aria-label="Rosa"></button>
+        <button class="swatch" data-color="#8E8E93" style="--sw:#8E8E93" title="Cinza" aria-label="Cinza"></button>
+        <label class="swatch swatch-custom" title="Cor personalizada"><input type="color" id="colorCustom" aria-label="Cor personalizada"></label>
+      </div>
+    </main>
+  </div>
+  <section id="shortcutsOverlay" class="overlay-panel glass glass-thick" role="dialog" aria-modal="false" aria-labelledby="shortcutsTitle" hidden>
+    <h2 id="shortcutsTitle" tabindex="-1">Atalhos</h2>
+    <p><kbd>/</kbd> Buscar · <kbd>Enter</kbd>/<kbd>F2</kbd> renomear · <kbd>Ctrl+Enter</kbd> criar conectado</p>
+    <p><kbd>Ctrl+D</kbd> duplicar · <kbd>C</kbd> conectar · <kbd>Ctrl+.</kbd> recolher interface</p>
+    <button id="btnCloseShortcuts">Fechar</button>
+  </section>
+  <div id="announcer" class="sr-only" role="status" aria-live="polite"></div>
+  <input type="file" id="fileInput" accept="application/json,.json" hidden>
+  <!-- Refração de lente (liquid glass): mapa de deslocamento em gradientes —
+       R codifica o eixo X, G o eixo Y (128 = neutro); um retângulo central
+       neutro desfocado restringe a curvatura à borda, como o bezel convexo
+       de uma lente (técnica de kube.io/blog/liquid-glass-css-svg). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="lg-map" href="data:image/svg+xml,%3Csvg%20xmlns='http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width='400'%20height='400'%3E%3Cdefs%3E%3ClinearGradient%20id='rx'%20x1='0'%20y1='0'%20x2='1'%20y2='0'%3E%3Cstop%20offset='0'%20stop-color='%23000000'/%3E%3Cstop%20offset='1'%20stop-color='%23ff0000'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='gy'%20x1='0'%20y1='0'%20x2='0'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%23000000'/%3E%3Cstop%20offset='1'%20stop-color='%2300ff00'/%3E%3C/linearGradient%3E%3Cfilter%20id='b'%20x='-30%25'%20y='-30%25'%20width='160%25'%20height='160%25'%3E%3CfeGaussianBlur%20stdDeviation='18'/%3E%3C/filter%3E%3C/defs%3E%3Crect%20width='400'%20height='400'%20fill='url(%23rx)'/%3E%3Crect%20width='400'%20height='400'%20fill='url(%23gy)'%20style='mix-blend-mode:screen'/%3E%3Crect%20x='44'%20y='44'%20width='312'%20height='312'%20rx='80'%20fill='%23808000'%20filter='url(%23b)'/%3E%3C/svg%3E"/>
+      <feDisplacementMap in="SourceGraphic" in2="lg-map" scale="52" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs></svg>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

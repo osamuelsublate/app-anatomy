@@ -1,0 +1,33 @@
+{
+  "format": "anatomia",
+  "version": 1,
+  "meta": {
+    "title": "Aula 1 — Fluxo básico",
+    "catalogVersion": "3"
+  },
+  "nodes": [
+    { "id": "aula1-nome", "def": "texto", "x": 48, "y": 24, "w": 360, "h": 64, "label": "Aula 1 — Fluxo básico", "color": "#D9F2E3" },
+    { "id": "aula1-desc", "def": "texto", "x": 48, "y": 96, "w": 912, "h": 88, "label": "O navegador não é a aplicação. O pedido passa pelo frontend, pela API e chega no banco." },
+
+    { "id": "aula1-titulo-pensa", "def": "texto", "x": 48, "y": 216, "w": 288, "h": 64, "label": "Como a gente pensa", "color": "#EAE8FB" },
+    { "id": "aula1-user", "def": "usuario", "x": 48, "y": 312, "label": "Usuário" },
+    { "id": "aula1-nav", "def": "navegador", "x": 264, "y": 312, "label": "Navegador" },
+    { "id": "aula1-app", "def": "monolito", "x": 480, "y": 312, "label": "Aplicação" },
+
+    { "id": "aula1-titulo-real", "def": "texto", "x": 48, "y": 480, "w": 288, "h": 64, "label": "O que acontece", "color": "#E3F0FF" },
+    { "id": "aula1-r-user", "def": "usuario", "x": 48, "y": 576, "label": "Usuário" },
+    { "id": "aula1-r-nav", "def": "navegador", "x": 264, "y": 576, "label": "Navegador" },
+    { "id": "aula1-r-frontend", "def": "frontend", "x": 480, "y": 576, "label": "Frontend" },
+    { "id": "aula1-r-api", "def": "api", "x": 696, "y": 576, "label": "API" },
+    { "id": "aula1-r-banco", "def": "sql", "x": 912, "y": 576, "label": "Banco de dados" }
+  ],
+  "edges": [
+    { "id": "aula1-e-abre", "from": "aula1-user", "to": "aula1-nav", "label": "abre" },
+    { "id": "aula1-e-acessa", "from": "aula1-nav", "to": "aula1-app", "label": "acessa" },
+
+    { "id": "aula1-re-abre", "from": "aula1-r-user", "to": "aula1-r-nav", "label": "abre" },
+    { "id": "aula1-re-carrega", "from": "aula1-r-nav", "to": "aula1-r-frontend", "label": "carrega" },
+    { "id": "aula1-re-pedido", "from": "aula1-r-frontend", "to": "aula1-r-api", "label": "pedidos" },
+    { "id": "aula1-re-dados", "from": "aula1-r-api", "to": "aula1-r-banco", "label": "lê e grava" }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "format": "anatomia",
+  "version": 1,
+  "meta": {
+    "title": "Aula 2 — Monólito e pedaços",
+    "catalogVersion": "3"
+  },
+  "nodes": [
+    { "id": "aula2-nome", "def": "texto", "x": 48, "y": 24, "w": 408, "h": 64, "label": "Aula 2 — Monólito e pedaços", "color": "#D9F2E3" },
+    { "id": "aula2-desc", "def": "texto", "x": 48, "y": 96, "w": 912, "h": 88, "label": "O fluxo básico é um monólito. Para crescer, vários frontends usam a mesma API." },
+
+    { "id": "aula2-titulo-mono", "def": "texto", "x": 48, "y": 216, "w": 216, "h": 64, "label": "Monolito", "color": "#EAE8FB" },
+    { "id": "aula2-user", "def": "usuario", "x": 48, "y": 360, "label": "Usuário" },
+    { "id": "aula2-nav", "def": "navegador", "x": 264, "y": 360, "label": "Navegador" },
+    { "id": "aula2-frontend", "def": "frontend", "x": 480, "y": 360, "label": "Frontend" },
+    { "id": "aula2-api", "def": "api", "x": 696, "y": 360, "label": "API" },
+    { "id": "aula2-banco", "def": "sql", "x": 912, "y": 360, "label": "Banco de dados" },
+
+    { "id": "aula2-titulo-dist", "def": "texto", "x": 48, "y": 528, "w": 240, "h": 64, "label": "Distribuída", "color": "#E3F0FF" },
+    { "id": "aula2-d-nav", "def": "navegador", "x": 48, "y": 624, "label": "Navegador" },
+    { "id": "aula2-d-desk", "def": "computador", "x": 48, "y": 768, "label": "Desktop" },
+    { "id": "aula2-d-cel", "def": "celular", "x": 48, "y": 912, "label": "Celular" },
+    { "id": "aula2-d-fe-web", "def": "frontend", "x": 288, "y": 624, "label": "Frontend web" },
+    { "id": "aula2-d-fe-desk", "def": "frontend", "x": 288, "y": 768, "label": "Frontend desktop" },
+    { "id": "aula2-d-fe-mob", "def": "frontend", "x": 288, "y": 912, "label": "Frontend mobile" },
+    { "id": "aula2-d-api", "def": "api", "x": 552, "y": 768, "label": "API" },
+    { "id": "aula2-d-banco", "def": "sql", "x": 792, "y": 768, "label": "Banco de dados" }
+  ],
+  "edges": [
+    { "id": "aula2-e-abre", "from": "aula2-user", "to": "aula2-nav", "label": "abre" },
+    { "id": "aula2-e-carrega", "from": "aula2-nav", "to": "aula2-frontend", "label": "carrega" },
+    { "id": "aula2-e-pedido", "from": "aula2-frontend", "to": "aula2-api", "label": "pedidos" },
+    { "id": "aula2-e-dados", "from": "aula2-api", "to": "aula2-banco", "label": "l? e grava" },
+
+    { "id": "aula2-de-web", "from": "aula2-d-nav", "to": "aula2-d-fe-web", "label": "abre" },
+    { "id": "aula2-de-desk", "from": "aula2-d-desk", "to": "aula2-d-fe-desk", "label": "abre" },
+    { "id": "aula2-de-cel", "from": "aula2-d-cel", "to": "aula2-d-fe-mob", "label": "abre" },
+    { "id": "aula2-de-web-api", "from": "aula2-d-fe-web", "to": "aula2-d-api", "label": "pedidos" },
+    { "id": "aula2-de-desk-api", "from": "aula2-d-fe-desk", "to": "aula2-d-api", "label": "pedidos" },
+    { "id": "aula2-de-mob-api", "from": "aula2-d-fe-mob", "to": "aula2-d-api", "label": "pedidos" },
+    { "id": "aula2-de-dados", "from": "aula2-d-api", "to": "aula2-d-banco", "label": "l? e grava" }
+  ]
+}
